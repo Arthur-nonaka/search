@@ -3,6 +3,16 @@ const elemSugestoes = document.querySelector(".sugestoes");
 const elemHistorico = document.querySelector(".historico");
 let historico = [];
 
+elemBusca.addEventListener("focus", function() {
+  elemHistorico.classList.remove("desativado");
+  elemHistorico.classList.add("ativado");
+});
+
+elemBusca.addEventListener("focusout", function() {
+  elemHistorico.classList.remove("ativado");
+  elemHistorico.classList.add("desativado");
+});
+
 var res;
 async function start() {
   res = await fetch("./palavras.json").then((res) => res.json());
