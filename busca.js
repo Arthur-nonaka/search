@@ -1,5 +1,6 @@
 const elemBusca = document.querySelector("#busca");
 const elemSugestoes = document.querySelector(".sugestoes");
+const elemHistorico = document.querySelector(".historico");
 let historico = [];
 
 var res;
@@ -12,20 +13,24 @@ elemBusca.addEventListener("keyup", () => click());
 const click = () => {
   if (elemBusca.value == "") {
     limparSugestoes();
+    elemHistorico.setAttribute("class", "historico ativado");
     historico.forEach((result) => {
       const elemDiv = document.createElement("div");
       elemDiv.setAttribute("class", "sugestao");
       elemDiv.innerHTML = result;
-      elemSugestoes.appendChild(elemDiv);
+      elemHistorico.appendChild(elemDiv);
     });
+    console.log(historico);
   } else {
     limparSugestoes();
+    elemHistorico.setAttribute("class", "historico desativado");
     criarSugestao(elemBusca.value);
   }
 };
 
 function limparSugestoes() {
   elemSugestoes.innerHTML = "";
+  elemHistorico.innerHTML = "";
 }
 
 function criarSugestao(texto) {
@@ -37,7 +42,10 @@ function criarSugestao(texto) {
 
     elemDiv.addEventListener("click", function () {
       elemBusca.value = result;
-      historico.push(result);
+      let a = historico.some((x) => x == result);
+      if (!a) {
+        historico.push(result);
+      }
       click();
     });
     elemSugestoes.appendChild(elemDiv);
